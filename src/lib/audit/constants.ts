@@ -1,0 +1,516 @@
+import type { ToolId } from "./types";
+
+export type PlanCategory = "individual" | "team" | "api";
+
+export interface PlanPrice {
+  id: string;
+  label: string;
+  category: PlanCategory;
+  monthlyPrice: number | null;
+  annualPrice: number | null;
+  annualMonthlyEquivalent?: number | null;
+  minimumSeats?: number | null;
+  source: string;
+  verifiedAt: string;
+  notes?: string;
+}
+
+export interface ApiModelPrice {
+  id: string;
+  label: string;
+  inputPerMillionTokens: number;
+  cachedInputPerMillionTokens?: number;
+  outputPerMillionTokens: number;
+  source: string;
+  verifiedAt: string;
+  notes?: string;
+}
+
+export interface ToolPricing {
+  id: ToolId;
+  name: string;
+  plans: PlanPrice[];
+  apiModels?: ApiModelPrice[];
+}
+
+export const PRICING_VERIFIED_AT = "2026-05-20";
+
+export const AUDIT_THRESHOLDS = {
+  lowSavingsMonthly: 100,
+  credexCatMonthly: 500,
+  apiSpendReviewMonthly: 200,
+  estimatedApiSavingsRate: 0.2,
+};
+
+export const TOOL_PRICING: Record<ToolId, ToolPricing> = {
+  cursor: {
+    id: "cursor",
+    name: "Cursor",
+    plans: [
+      {
+        id: "hobby",
+        label: "Hobby",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: 0,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro",
+        label: "Pro",
+        category: "individual",
+        monthlyPrice: 20,
+        annualPrice: 192,
+        annualMonthlyEquivalent: 16,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro_plus",
+        label: "Pro+",
+        category: "individual",
+        monthlyPrice: 60,
+        annualPrice: 576,
+        annualMonthlyEquivalent: 48,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "ultra",
+        label: "Ultra",
+        category: "individual",
+        monthlyPrice: 200,
+        annualPrice: 1920,
+        annualMonthlyEquivalent: 160,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "teams",
+        label: "Teams",
+        category: "team",
+        monthlyPrice: 40,
+        annualPrice: 384,
+        annualMonthlyEquivalent: 32,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "enterprise",
+        label: "Enterprise",
+        category: "team",
+        monthlyPrice: null,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://cursor.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Custom pricing",
+      },
+    ],
+  },
+  github_copilot: {
+    id: "github_copilot",
+    name: "GitHub Copilot",
+    plans: [
+      {
+        id: "free",
+        label: "Free",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://github.com/features/copilot/plans",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro",
+        label: "Pro",
+        category: "individual",
+        monthlyPrice: 10,
+        annualPrice: 100,
+        annualMonthlyEquivalent: null,
+        source: "https://github.com/features/copilot/plans",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro_plus",
+        label: "Pro+",
+        category: "individual",
+        monthlyPrice: 39,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://github.com/features/copilot/plans",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "business",
+        label: "Business",
+        category: "team",
+        monthlyPrice: 19,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://github.com/features/copilot/plans",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes:
+          "GitHub announced Copilot billing changes for 2026-06-01; avoid long-term projections from request-based pricing.",
+      },
+      {
+        id: "enterprise",
+        label: "Enterprise",
+        category: "team",
+        monthlyPrice: 39,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://github.com/features/copilot/plans",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+    ],
+  },
+  claude: {
+    id: "claude",
+    name: "Claude",
+    plans: [
+      {
+        id: "free",
+        label: "Free",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro",
+        label: "Pro",
+        category: "individual",
+        monthlyPrice: 20,
+        annualPrice: 200,
+        annualMonthlyEquivalent: 17,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "max_5x",
+        label: "Max 5x",
+        category: "individual",
+        monthlyPrice: 100,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "max_20x",
+        label: "Max 20x",
+        category: "individual",
+        monthlyPrice: 200,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "team_standard",
+        label: "Team Standard",
+        category: "team",
+        monthlyPrice: 25,
+        annualPrice: null,
+        annualMonthlyEquivalent: 20,
+        minimumSeats: 5,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "team_premium",
+        label: "Team Premium",
+        category: "team",
+        monthlyPrice: 125,
+        annualPrice: null,
+        annualMonthlyEquivalent: 100,
+        minimumSeats: 5,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "enterprise",
+        label: "Enterprise",
+        category: "team",
+        monthlyPrice: null,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://claude.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Custom pricing or usage-based enterprise setup",
+      },
+    ],
+  },
+  chatgpt: {
+    id: "chatgpt",
+    name: "ChatGPT",
+    plans: [
+      {
+        id: "free",
+        label: "Free",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "plus",
+        label: "Plus",
+        category: "individual",
+        monthlyPrice: 20,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro",
+        label: "Pro",
+        category: "individual",
+        monthlyPrice: 100,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro_high_usage",
+        label: "Pro higher-usage tier",
+        category: "individual",
+        monthlyPrice: 200,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "business",
+        label: "Business",
+        category: "team",
+        monthlyPrice: 25,
+        annualPrice: null,
+        annualMonthlyEquivalent: 20,
+        minimumSeats: 2,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "enterprise",
+        label: "Enterprise",
+        category: "team",
+        monthlyPrice: null,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://chatgpt.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Custom pricing, contact sales",
+      },
+    ],
+  },
+  anthropic_api: {
+    id: "anthropic_api",
+    name: "Anthropic API",
+    plans: [],
+    apiModels: [
+      {
+        id: "claude_opus_4_7",
+        label: "Claude Opus 4.7",
+        inputPerMillionTokens: 5,
+        outputPerMillionTokens: 25,
+        source: "https://platform.claude.com/docs/en/about-claude/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "claude_sonnet_4_6",
+        label: "Claude Sonnet 4.6",
+        inputPerMillionTokens: 3,
+        outputPerMillionTokens: 15,
+        source: "https://platform.claude.com/docs/en/about-claude/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "claude_haiku_4_5",
+        label: "Claude Haiku 4.5",
+        inputPerMillionTokens: 1,
+        outputPerMillionTokens: 5,
+        source: "https://platform.claude.com/docs/en/about-claude/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+    ],
+  },
+  openai_api: {
+    id: "openai_api",
+    name: "OpenAI API",
+    plans: [],
+    apiModels: [
+      {
+        id: "gpt_5_5",
+        label: "GPT-5.5",
+        inputPerMillionTokens: 5,
+        cachedInputPerMillionTokens: 0.5,
+        outputPerMillionTokens: 30,
+        source: "https://openai.com/api/pricing/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "gpt_5_4",
+        label: "GPT-5.4",
+        inputPerMillionTokens: 2.5,
+        cachedInputPerMillionTokens: 0.25,
+        outputPerMillionTokens: 15,
+        source: "https://openai.com/api/pricing/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "gpt_5_4_mini",
+        label: "GPT-5.4 mini",
+        inputPerMillionTokens: 0.75,
+        cachedInputPerMillionTokens: 0.075,
+        outputPerMillionTokens: 4.5,
+        source: "https://openai.com/api/pricing/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+    ],
+  },
+  gemini: {
+    id: "gemini",
+    name: "Gemini",
+    plans: [
+      {
+        id: "free",
+        label: "Gemini Free",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://gemini.google/us/subscriptions/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "google_ai_plus",
+        label: "Google AI Plus",
+        category: "individual",
+        monthlyPrice: 7.99,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://gemini.google/us/subscriptions/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "google_ai_pro",
+        label: "Google AI Pro",
+        category: "individual",
+        monthlyPrice: 19.99,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://gemini.google/us/subscriptions/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "google_ai_ultra",
+        label: "Google AI Ultra",
+        category: "individual",
+        monthlyPrice: 99.99,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://gemini.google/us/subscriptions/",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Starts at $99.99/month; higher usage tier listed separately.",
+      },
+      {
+        id: "google_ai_ultra_high_usage",
+        label: "Google AI Ultra higher-usage tier",
+        category: "individual",
+        monthlyPrice: 199.99,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://gemini.google/us/subscriptions/",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+    ],
+    apiModels: [
+      {
+        id: "gemini_2_5_flash",
+        label: "Gemini 2.5 Flash",
+        inputPerMillionTokens: 0.3,
+        outputPerMillionTokens: 2.5,
+        source: "https://ai.google.dev/gemini-api/docs/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "gemini_2_5_pro",
+        label: "Gemini 2.5 Pro",
+        inputPerMillionTokens: 1.25,
+        outputPerMillionTokens: 10,
+        source: "https://ai.google.dev/gemini-api/docs/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+    ],
+  },
+  windsurf: {
+    id: "windsurf",
+    name: "Windsurf",
+    plans: [
+      {
+        id: "free",
+        label: "Free",
+        category: "individual",
+        monthlyPrice: 0,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://windsurf.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "pro",
+        label: "Pro",
+        category: "individual",
+        monthlyPrice: 20,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://windsurf.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Existing Pro users at $15/month are grandfathered.",
+      },
+      {
+        id: "max",
+        label: "Max",
+        category: "individual",
+        monthlyPrice: 200,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://windsurf.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+      },
+      {
+        id: "teams",
+        label: "Teams",
+        category: "team",
+        monthlyPrice: 40,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://windsurf.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Existing Teams users at $30/user/month are grandfathered.",
+      },
+      {
+        id: "enterprise",
+        label: "Enterprise",
+        category: "team",
+        monthlyPrice: null,
+        annualPrice: null,
+        annualMonthlyEquivalent: null,
+        source: "https://windsurf.com/pricing",
+        verifiedAt: PRICING_VERIFIED_AT,
+        notes: "Custom pricing, contact sales",
+      },
+    ],
+  },
+};
