@@ -37,7 +37,7 @@ export const PRICING_VERIFIED_AT = "2026-05-20";
 
 export const AUDIT_THRESHOLDS = {
   lowSavingsMonthly: 100,
-  credexCatMonthly: 500,
+  credexCtaMonthly: 500,
   apiSpendReviewMonthly: 200,
   estimatedApiSavingsRate: 0.2,
 };
