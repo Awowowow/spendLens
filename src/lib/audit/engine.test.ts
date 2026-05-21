@@ -44,7 +44,7 @@ describe("runAudit", () => {
   it("shows the Credex CTA when estimated savings are above 500 dollars", () => {
     const result = runAudit({
       teamSize: 8,
-      useCase: "api",
+      useCase: "data",
       tools: [
         {
           toolId: "openai_api",
@@ -174,7 +174,7 @@ describe("runAudit", () => {
   it("treats Gemini API model spend as API spend", () => {
     const result = runAudit({
       teamSize: 4,
-      useCase: "api",
+      useCase: "data",
       tools: [
         {
           toolId: "gemini",

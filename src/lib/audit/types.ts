@@ -8,7 +8,7 @@ export type ToolId =
   | "gemini"
   | "windsurf";
 
-export type UseCase = "coding" | "writing" | "research" | "api" | "mixed";
+  export type UseCase = "coding" | "writing" | "data" | "research" | "mixed";
 
 export interface ToolSpendInput {
   toolId: ToolId;
