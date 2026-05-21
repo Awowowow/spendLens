@@ -3,7 +3,7 @@
 **Hours worked:** 5
 
 ### What I did
-
+- I did brainstorming first and researched about the project and the credex company and their work.
 - I checked the prices for all 8 required tools by going to the official websites.
 - I set up a new Next.js project with TypeScript and Tailwind.
 - I made my first commit.
