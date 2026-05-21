@@ -1,3 +1,5 @@
-day 1: I came into the project comfortable with JavaScript and React, but not with production Next.js App Router or TypeScript. I used the assignment to learn both while building. AI and docs helped explain unfamiliar patterns, but I manually checked the routing, form behavior, tests, pricing logic, and deployment.
+**Reflection note:**
 
-day 2: it took time to get used to writing in typescript but now it feels natural luckily i am completely used to writing in javascript so switching to typescript was no big deal at all and i kept facing naming problems i wanted my variable name to be meaningfull so i had to think for it a lott. Testing part was pretty fun though it felt great to see all 11 test cases passed in 1st try.
+- I came into the project comfortable with JavaScript and React, but not with production Next.js App Router or TypeScript. I used the assignment to learn both while building. AI and docs helped explain unfamiliar patterns, but I manually checked the routing, form behavior, tests, pricing logic, and deployment.
+
+- TypeScript felt slow at first, but having JavaScript and React experience made it easier to understand. Naming variables clearly took more thought than expected. The testing part was satisfying because all 11 audit-engine tests passed on the first run.
