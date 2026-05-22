@@ -47,7 +47,7 @@
 
 ### What I learned
 
-- TypeScript is slow for me right now, but it helped catch real mistakes like missing tool pricing keys and nullable prices.
+- TypeScript slowed me down at first, but it helped catch real mistakes like missing tool pricing keys and nullable prices.
 - Public pricing should serve as a benchmark, not as proof that someone is definitely overspending.
 - The audit engine needs to avoid stacking overlapping savings, or the numbers become hard to trust.
 - Writing tests was useful because it made the audit rules feel more concrete, rather than just being ideas.
@@ -66,3 +66,41 @@
 - Add form persistence using `localStorage`.
 - Show audit results on-screen after the user submits the form.
 - Start writing `TESTS.md` with the audit-engine tests I added.
+
+
+## Day 3 — 2026-05-22
+
+**Hours worked:** 8
+
+### What I did
+
+- I built the working `AuditForm` UI and connected it to the audit engine.
+- I added `useFormPersistence` so the form data stays saved after a page reload.
+- I fixed a hydration mismatch that happened when saved browser data loaded too early.
+- I changed the form so it stores typed number fields as strings, then converts them to numbers when the audit runs.
+- I split the results page into smaller components: `AuditResults`, `SavingsHero`, and `RecommendationCard`.
+- I redesigned the results dashboard to make the savings number stand out more clearly.
+- I set up the GitHub Actions CI workflow and confirmed that lint and all 11 audit-engine tests pass.
+- I created the database schema for Supabase in `supabase/schema.sql`.
+
+### What I learned
+
+- In a server-rendered React app, browser-only data needs to be loaded carefully.
+- Number inputs work better when the typed value is stored as a string and converted during submission.
+- The results page needs stronger hierarchy than the input form because it is what people are most likely to share.
+- Pricing should be shown as a benchmark, not as a final billing statement.
+- A committed database schema makes the backend design easier to review.
+
+### Blockers / decisions
+
+- I decided not to add login because it is not required for the assignment and email capture after the audit is enough for lead generation.
+- I paused deeper UI polish because backend persistence and shareable URLs are higher priority for the MVP.
+- I decided to store audit results separately from leads so public share pages do not expose private information.
+- I still need to connect the API routes to Supabase and build the public audit page.
+
+### Plan for tomorrow
+
+- Build a way to save audit results to the database.
+- Generate a unique slug for each audit so people can share their results.
+- Create the public audit page and make sure it does not expose private information.
+- Start the lead capture API once the share URL flow is working.
