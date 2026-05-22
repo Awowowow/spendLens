@@ -6,28 +6,35 @@ export const useFormPersistence = <T>(
   storageKey: string,
   initialValue: T,
 ) => {
-  const [value, setValue] = useState<T>(() => {
-    if (typeof window === "undefined") {
-      return initialValue;
-    }
-
-    const savedValue = window.localStorage.getItem(storageKey);
-
-    if (!savedValue) {
-      return initialValue;
-    }
-
-    try {
-      return JSON.parse(savedValue) as T;
-    } catch {
-      window.localStorage.removeItem(storageKey);
-      return initialValue;
-    }
-  });
+  const [value, setValue] = useState<T>(initialValue);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
-    window.localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [storageKey, value]);
+    queueMicrotask(() => {
+      const savedValue = window.localStorage.getItem(storageKey);
 
-  return [value, setValue] as const;
+      if (!savedValue) {
+        setHasLoaded(true);
+        return;
+      }
+
+      try {
+        setValue(JSON.parse(savedValue) as T);
+      } catch {
+        window.localStorage.removeItem(storageKey);
+      } finally {
+        setHasLoaded(true);
+      }
+    });
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!hasLoaded) {
+      return;
+    }
+
+    window.localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [hasLoaded, storageKey, value]);
+
+  return [value, setValue, hasLoaded] as const;
 };

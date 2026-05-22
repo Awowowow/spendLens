@@ -86,7 +86,7 @@ const parseSeatInput = (value: string) => {
 };
 
 export const AuditForm = () => {
-  const [form, setForm] = useFormPersistence<AuditInput>(
+  const [form, setForm, hasLoadedForm] = useFormPersistence<AuditInput>(
     STORAGE_KEY,
     initialForm,
   );
@@ -163,6 +163,18 @@ export const AuditForm = () => {
     setResult(runAudit(form));
   };
 
+  if (!hasLoadedForm) {
+    return (
+      <section className="w-full bg-slate-50 px-4 py-10 text-slate-950 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <p className="text-sm font-medium text-slate-600">
+            Loading saved audit form...
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="w-full bg-slate-50 px-4 py-10 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
@@ -195,6 +207,7 @@ export const AuditForm = () => {
                 className="h-11 w-full rounded-md border border-slate-300 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 min={1}
                 onChange={updateTeamSize}
+                onFocus={(event) => event.target.select()}
                 type="number"
                 value={form.teamSize}
               />
@@ -289,8 +302,9 @@ export const AuditForm = () => {
                             monthlySpend: parseMoneyInput(event.target.value),
                           })
                         }
+                        onFocus={(event) => event.target.select()}
                         type="number"
-                        value={tool.monthlySpend}
+                        value={tool.monthlySpend === 0 ? "" : tool.monthlySpend}
                       />
                     </label>
 
@@ -306,6 +320,7 @@ export const AuditForm = () => {
                             seats: parseSeatInput(event.target.value),
                           })
                         }
+                        onFocus={(event) => event.target.select()}
                         type="number"
                         value={tool.seats}
                       />
