@@ -44,6 +44,7 @@ export const sendLeadConfirmationEmail = async ({
   });
 
   if (error) {
+    console.warn("Resend email failed:", error.message);
     return { sent: false };
   }
 
