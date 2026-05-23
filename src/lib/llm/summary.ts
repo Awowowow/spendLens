@@ -11,6 +11,10 @@ interface GeminiResponse {
   }>;
 }
 
+const isUsableSummary = (summary: string) => {
+  return summary.length >= 80 && /[.!?]$/.test(summary);
+};
+
 const buildSummaryPrompt = (input: AuditInput, result: AuditResult) => {
   const recommendations = result.recommendations
     .map(
@@ -84,7 +88,11 @@ export const generateAuditSummary = async (
       .join("")
       .trim();
 
-    return summary || fallbackSummary;
+    if (!summary || !isUsableSummary(summary)) {
+      return fallbackSummary;
+    }
+
+    return summary;
   } catch {
     return fallbackSummary;
   }
