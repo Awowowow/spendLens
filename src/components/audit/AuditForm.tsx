@@ -40,6 +40,13 @@ interface AuditFormDraft {
   tools: ToolSpendDraft[];
 }
 
+interface CreateAuditResponse {
+  auditId: string;
+  slug: string;
+  shareUrl: string;
+  result: AuditResult;
+}
+
 const getPlanOptions = (toolId: ToolId) => {
   const pricing = TOOL_PRICING[toolId];
 
@@ -112,6 +119,8 @@ export const AuditForm = () => {
     useFormPersistence<AuditFormDraft>(STORAGE_KEY, initialForm);
 
   const [result, setResult] = useState<AuditResult | null>(null);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [isSavingAudit, setIsSavingAudit] = useState(false);
 
   const auditInput = useMemo(() => toAuditInput(form), [form]);
 
@@ -123,6 +132,7 @@ export const AuditForm = () => {
   const updateForm = (nextForm: AuditFormDraft) => {
     setForm(nextForm);
     setResult(null);
+    setShareUrl(null);
   };
 
   const updateTeamSize = (event: ChangeEvent<HTMLInputElement>) => {
@@ -186,9 +196,34 @@ export const AuditForm = () => {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setResult(runAudit(auditInput));
+
+    setIsSavingAudit(true);
+
+    try {
+      const response = await fetch("/api/audits", {
+        body: JSON.stringify({ input: auditInput }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not save audit.");
+      }
+
+      const data = (await response.json()) as CreateAuditResponse;
+
+      setResult(data.result);
+      setShareUrl(data.shareUrl);
+    } catch {
+      setResult(runAudit(auditInput));
+      setShareUrl(null);
+    } finally {
+      setIsSavingAudit(false);
+    }
   };
 
   if (!hasLoadedForm) {
@@ -229,6 +264,22 @@ export const AuditForm = () => {
               totalCurrentSpend={totalCurrentSpend}
             />
 
+            {shareUrl ? (
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <p className="text-sm font-semibold text-white">
+                  Shareable audit link
+                </p>
+                <a
+                  className="mt-2 block break-all font-mono text-sm text-emerald-300 hover:text-emerald-200"
+                  href={shareUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {shareUrl}
+                </a>
+              </div>
+            ) : null}
+
             <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -244,6 +295,7 @@ export const AuditForm = () => {
               <AuditFields
                 addTool={addTool}
                 form={form}
+                isSavingAudit={isSavingAudit}
                 removeTool={removeTool}
                 updateTeamSize={updateTeamSize}
                 updateTool={updateTool}
@@ -268,6 +320,7 @@ export const AuditForm = () => {
             <AuditFields
               addTool={addTool}
               form={form}
+              isSavingAudit={isSavingAudit}
               removeTool={removeTool}
               updateTeamSize={updateTeamSize}
               updateTool={updateTool}
@@ -284,6 +337,7 @@ export const AuditForm = () => {
 
 interface AuditFieldsProps {
   form: AuditFormDraft;
+  isSavingAudit: boolean;
   addTool: () => void;
   removeTool: (toolIndex: number) => void;
   updateTeamSize: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -303,6 +357,7 @@ const labelClassName = "text-sm font-medium text-slate-300";
 
 const AuditFields = ({
   form,
+  isSavingAudit,
   addTool,
   removeTool,
   updateTeamSize,
@@ -452,10 +507,11 @@ const AuditFields = ({
       </div>
 
       <button
-        className="h-12 w-full rounded-xl bg-emerald-400 px-4 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
+        className="h-12 w-full rounded-xl bg-emerald-400 px-4 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
+        disabled={isSavingAudit}
         type="submit"
       >
-        Generate audit
+        {isSavingAudit ? "Saving audit..." : "Generate audit"}
       </button>
     </form>
   );
