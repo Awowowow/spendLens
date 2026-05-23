@@ -14,6 +14,7 @@ import type {
   UseCase,
 } from "../../lib/audit/types";
 import { AuditResults } from "./AuditResults";
+import { LeadCapture } from "./LeadCapture";
 
 const STORAGE_KEY = "spendlens-audit-form";
 
@@ -45,6 +46,10 @@ interface CreateAuditResponse {
   slug: string;
   shareUrl: string;
   result: AuditResult;
+}
+
+interface SummaryResponse {
+  summary: string;
 }
 
 const getPlanOptions = (toolId: ToolId) => {
@@ -119,8 +124,11 @@ export const AuditForm = () => {
     useFormPersistence<AuditFormDraft>(STORAGE_KEY, initialForm);
 
   const [result, setResult] = useState<AuditResult | null>(null);
+  const [auditId, setAuditId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [isSavingAudit, setIsSavingAudit] = useState(false);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
 
   const auditInput = useMemo(() => toAuditInput(form), [form]);
 
@@ -132,7 +140,43 @@ export const AuditForm = () => {
   const updateForm = (nextForm: AuditFormDraft) => {
     setForm(nextForm);
     setResult(null);
+    setAuditId(null);
     setShareUrl(null);
+    setSummary(null);
+  };
+
+  const requestSummary = async (
+    savedAuditId: string,
+    savedInput: AuditInput,
+    savedResult: AuditResult,
+  ) => {
+    setIsLoadingSummary(true);
+
+    try {
+      const response = await fetch("/api/summary", {
+        body: JSON.stringify({
+          auditId: savedAuditId,
+          input: savedInput,
+          result: savedResult,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not create summary.");
+      }
+
+      const data = (await response.json()) as SummaryResponse;
+
+      setSummary(data.summary);
+    } catch {
+      setSummary(null);
+    } finally {
+      setIsLoadingSummary(false);
+    }
   };
 
   const updateTeamSize = (event: ChangeEvent<HTMLInputElement>) => {
@@ -217,10 +261,14 @@ export const AuditForm = () => {
       const data = (await response.json()) as CreateAuditResponse;
 
       setResult(data.result);
+      setAuditId(data.auditId);
       setShareUrl(data.shareUrl);
+      void requestSummary(data.auditId, auditInput, data.result);
     } catch {
       setResult(runAudit(auditInput));
+      setAuditId(null);
       setShareUrl(null);
+      setSummary(null);
     } finally {
       setIsSavingAudit(false);
     }
@@ -259,7 +307,9 @@ export const AuditForm = () => {
         {result ? (
           <div className="space-y-6">
             <AuditResults
+              isLoadingSummary={isLoadingSummary}
               result={result}
+              summary={summary}
               toolsReviewed={auditInput.tools.length}
               totalCurrentSpend={totalCurrentSpend}
             />
@@ -289,6 +339,15 @@ export const AuditForm = () => {
                   Open saved report
                 </a>
               </div>
+            ) : null}
+
+            {auditId ? (
+              <LeadCapture
+                auditId={auditId}
+                shareUrl={shareUrl ?? ""}
+                teamSize={auditInput.teamSize}
+                totalMonthlySavings={result.totalMonthlySavings}
+              />
             ) : null}
 
             <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">

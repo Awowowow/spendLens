@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AuditResults } from "../../../components/audit/AuditResults";
@@ -14,12 +15,69 @@ interface PublicAuditRow {
   total_annual_savings: number;
   tools: ToolSpendInput[];
   recommendations: Recommendation[];
+  summary: string | null;
 }
 
 interface PublicAuditPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+const formatDollars = (amount: number) => {
+  return new Intl.NumberFormat("en-US", {
+    currency: "USD",
+    maximumFractionDigits: 0,
+    style: "currency",
+  }).format(amount);
+};
+
+export async function generateMetadata({
+  params,
+}: PublicAuditPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  try {
+    const supabase = createServerSupabaseClient();
+    const { data } = await supabase
+      .from("audits")
+      .select("total_monthly_savings, total_annual_savings")
+      .eq("slug", slug)
+      .maybeSingle<{
+        total_monthly_savings: number;
+        total_annual_savings: number;
+      }>();
+
+    if (!data) {
+      return {
+        title: "SpendLens shared AI spend audit",
+      };
+    }
+
+    const monthlySavings = formatDollars(Number(data.total_monthly_savings));
+    const annualSavings = formatDollars(Number(data.total_annual_savings));
+    const title = `${monthlySavings}/mo AI savings found | SpendLens`;
+    const description = `A public SpendLens audit found ${monthlySavings}/month and ${annualSavings}/year in benchmark-based AI spend opportunities.`;
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+      },
+    };
+  } catch {
+    return {
+      title: "SpendLens shared AI spend audit",
+    };
+  }
 }
 
 export default async function PublicAuditPage({
@@ -31,7 +89,7 @@ export default async function PublicAuditPage({
   const { data, error } = await supabase
     .from("audits")
     .select(
-      "slug, total_monthly_savings, total_annual_savings, tools, recommendations",
+      "slug, total_monthly_savings, total_annual_savings, tools, recommendations, summary",
     )
     .eq("slug", slug)
     .single<PublicAuditRow>();
@@ -77,6 +135,7 @@ export default async function PublicAuditPage({
 
         <AuditResults
           result={result}
+          summary={data.summary}
           toolsReviewed={data.tools.length}
           totalCurrentSpend={totalCurrentSpend}
         />

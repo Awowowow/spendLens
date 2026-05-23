@@ -7,13 +7,17 @@ import { RecommendationCard } from "./RecommendationCard";
 import { SavingsHero } from "./SavingsHero";
 
 interface AuditResultsProps {
+  isLoadingSummary?: boolean;
   result: AuditResult;
+  summary?: string | null;
   totalCurrentSpend: number;
   toolsReviewed: number;
 }
 
 export const AuditResults = ({
+  isLoadingSummary = false,
   result,
+  summary,
   totalCurrentSpend,
   toolsReviewed,
 }: AuditResultsProps) => {
@@ -55,6 +59,19 @@ export const AuditResults = ({
         toolsReviewed={toolsReviewed}
         totalCurrentSpend={totalCurrentSpend}
       />
+
+      {isLoadingSummary || summary ? (
+        <div className="mt-5 rounded-2xl border border-[var(--audit-border)] bg-[var(--audit-surface-soft)] p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--audit-text-muted)]">
+            AI summary
+          </p>
+          <p className="mt-2 text-sm leading-6 text-[var(--audit-text-secondary)]">
+            {isLoadingSummary
+              ? "Writing a short summary for this audit..."
+              : summary}
+          </p>
+        </div>
+      ) : null}
 
       {result.shouldShowCredexCta ? (
         <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-[var(--audit-border)] bg-[var(--audit-partner-bg)] p-4 sm:flex-row sm:items-center sm:justify-between">
