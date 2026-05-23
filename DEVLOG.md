@@ -104,3 +104,44 @@
 - Generate a unique slug for each audit so people can share their results.
 - Create the public audit page and make sure it does not expose private information.
 - Start the lead capture API once the share URL flow is working.
+
+
+## Day 4 — 2026-05-23
+
+**Hours worked:** 8
+
+### What I did
+
+- I made the audit flow work with Supabase. Completed audits are now saved in the database.
+- I added unique links for saved audits so each report has its own public share URL.
+- I built the public audit page and made sure it only shows audit information.
+- I added a saved report section after the audit result so users can open the permanent report.
+- I changed the lead capture flow so users see the audit result before entering their email.
+- I added a honeypot field and Supabase-backed rate limiting to reduce spam lead submissions.
+- I added the Resend confirmation email path.
+- I added a Gemini summary route. If the API key is missing or the model request fails, it shows a fallback summary.
+- I added Open Graph metadata and a generated image for public audit pages.
+- I fixed a GitHub Actions install failure caused by `package-lock.json` being out of sync with the Linux CI environment.
+
+### What I learned
+
+- A committed database schema is useful, but the SQL still needs to be run inside Supabase before the app can use the tables.
+- Public share pages should only load the information they need and should not load lead data.
+- The server should run the audit again before saving results instead of trusting data from the browser.
+- Asking for email after the user has seen the report feels more honest.
+- If `package.json` and `package-lock.json` are not synced, CI can fail before tests even run.
+
+### Blockers / decisions
+
+- I kept homepage results temporary because the permanent version now lives on the public share URL.
+- I made Resend optional locally, so lead capture still works even if email sending is not configured.
+- I made Gemini optional. If the API key is missing, the app shows a fallback summary.
+- I did not add account login or audit history because the assignment is focused on shareable audit reports and lead capture.
+
+### Plan for tomorrow
+
+- Deploy the app on Vercel and add production environment variables.
+- Test the deployed flow: audit, saved report, lead capture, summary, and public share page.
+- Start writing the remaining documentation files.
+- Add user interview notes and connect them to product decisions.
+- Run mobile and accessibility checks.
