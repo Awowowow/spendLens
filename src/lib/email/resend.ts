@@ -6,13 +6,26 @@ interface LeadConfirmationEmail {
   totalMonthlySavings: number;
 }
 
+const cleanEnvValue = (value: string | undefined) => {
+  if (!value) {
+    return undefined;
+  }
+
+  const trimmedValue = value.trim().replace(/^["']|["']$/g, "");
+  const assignmentMatch = trimmedValue.match(/^[A-Z0-9_]+=(.+)$/);
+
+  return (assignmentMatch?.[1] ?? trimmedValue)
+    .trim()
+    .replace(/^["']|["']$/g, "");
+};
+
 export const sendLeadConfirmationEmail = async ({
   to,
   shareUrl,
   totalMonthlySavings,
 }: LeadConfirmationEmail) => {
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const resendApiKey = cleanEnvValue(process.env.RESEND_API_KEY);
+  const fromEmail = cleanEnvValue(process.env.RESEND_FROM_EMAIL);
 
   if (!resendApiKey || !fromEmail) {
     return { sent: false };
