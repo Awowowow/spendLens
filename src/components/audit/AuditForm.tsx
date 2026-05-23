@@ -265,17 +265,28 @@ export const AuditForm = () => {
             />
 
             {shareUrl ? (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                <p className="text-sm font-semibold text-white">
-                  Shareable audit link
-                </p>
+              <div className="flex flex-col gap-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    Saved report ready
+                  </p>
+                  <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-400">
+                    This audit now has a public share page. The shared page
+                    keeps the results available after refresh and excludes
+                    private lead details.
+                  </p>
+                  <p className="mt-2 break-all font-mono text-xs text-emerald-300">
+                    {shareUrl}
+                  </p>
+                </div>
+
                 <a
-                  className="mt-2 block break-all font-mono text-sm text-emerald-300 hover:text-emerald-200"
+                  className="shrink-0 rounded-xl bg-emerald-400 px-4 py-2 text-center text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
                   href={shareUrl}
                   rel="noreferrer"
                   target="_blank"
                 >
-                  {shareUrl}
+                  Open saved report
                 </a>
               </div>
             ) : null}
