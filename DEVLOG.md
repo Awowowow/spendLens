@@ -145,3 +145,43 @@
 - Start writing the remaining documentation files.
 - Add user interview notes and connect them to product decisions.
 - Run mobile and accessibility checks.
+
+
+## Day 5 — 2026-05-24
+
+**Hours worked:** 7
+
+### What I did
+
+- I deployed SpendLens to Vercel and connected the production app to Supabase environment variables.
+- I tested the deployed audit flow end to end: homepage, audit creation, saved public report URL, lead capture, and summary generation.
+- I added production environment variables for Resend and Gemini.
+- I found that Gemini could sometimes return a very short incomplete summary, so I added a fallback guard for incomplete AI summaries.
+- I fixed the Resend sender configuration and confirmed the deployed lead endpoint can send a transactional email.
+- I fixed a frontend bug in the lead capture form where the form reset could fail after the async request.
+- I added a production build step to GitHub Actions so CI now checks lint, tests, and `next build`.
+- I ran Lighthouse on the deployed URL and got scores above the assignment requirements.
+- I added notes from my first real user interview with a lead frontend developer.
+
+### What I learned
+
+- A Vercel deployment can build successfully but still fail at runtime if production environment variables are missing or added to the wrong environment.
+- It is not enough for an LLM route to return a response. The app also needs to reject bad or incomplete responses and fall back safely.
+- Transactional email setup has two separate risks: the API key can be valid while the sender address is still invalid.
+- UI bugs can appear after a successful API call, especially when a form uses async submission and then tries to reset itself.
+- User interview feedback made it clear that savings should eventually be shown as a percentage as well as a dollar amount.
+
+### Blockers / decisions
+
+- I decided not to add a large bonus feature today because deployment, production QA, and documentation are more important for passing the required assignment checks.
+- I kept the Gemini fallback even after adding the API key because the assignment specifically asks for graceful failure handling.
+- I used `onboarding@resend.dev` for email sending because it is enough to prove the Resend path works, but a verified domain would be better for a real production launch.
+- I still need two more real user interviews and the remaining documentation files.
+
+### Plan for tomorrow
+
+- Complete two more user interviews and write the notes while the conversations are still fresh.
+- Fill in `README.md`, `ARCHITECTURE.md`, `TESTS.md`, `PROMPTS.md`, and the entrepreneurial files.
+- Add the unit economics section with real assumptions and rough math.
+- Re-check the deployed app after the documentation work is done.
+- Make sure the latest GitHub Actions run is still green before submission.
