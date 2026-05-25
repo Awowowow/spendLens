@@ -12,7 +12,9 @@ interface GeminiResponse {
 }
 
 const isUsableSummary = (summary: string) => {
-  return summary.length >= 80 && /[.!?]$/.test(summary);
+  const wordCount = summary.split(/\s+/).filter(Boolean).length;
+
+  return wordCount >= 55 && wordCount <= 115 && /[.!?]$/.test(summary);
 };
 
 const buildSummaryPrompt = (input: AuditInput, result: AuditResult) => {
@@ -28,7 +30,7 @@ Write one short paragraph for a startup AI spend audit.
 
 Rules:
 - Use plain English.
-- Keep it under 70 words.
+- Keep it between 70 and 100 words.
 - Do not invent pricing numbers.
 - Do not mention that you are an AI.
 - Be honest if savings are low.
@@ -67,7 +69,7 @@ export const generateAuditSummary = async (
             },
           ],
           generationConfig: {
-            maxOutputTokens: 120,
+            maxOutputTokens: 180,
             temperature: 0.4,
           },
         }),

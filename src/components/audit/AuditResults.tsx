@@ -89,12 +89,12 @@ export const AuditResults = ({
             </p>
           </div>
 
-          <button
+          <a
             className="shrink-0 rounded-xl bg-[var(--audit-partner)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-            type="button"
+            href="#credit-review"
           >
             Request credit review
-          </button>
+          </a>
         </div>
       ) : null}
 

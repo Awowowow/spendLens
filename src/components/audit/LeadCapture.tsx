@@ -68,7 +68,10 @@ export const LeadCapture = ({
   };
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <section
+      className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+      id="credit-review"
+    >
       <div className="max-w-2xl">
         <p className="text-sm font-semibold text-white">Send me this report</p>
         <p className="mt-1 text-sm leading-6 text-slate-400">

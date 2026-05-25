@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AuditResults } from "../../../components/audit/AuditResults";
+import { LeadCapture } from "../../../components/audit/LeadCapture";
 import type {
   AuditResult,
   Recommendation,
@@ -10,7 +11,9 @@ import type {
 import { createServerSupabaseClient } from "../../../lib/supabase/server";
 
 interface PublicAuditRow {
+  id: string;
   slug: string;
+  team_size: number;
   total_monthly_savings: number;
   total_annual_savings: number;
   tools: ToolSpendInput[];
@@ -89,7 +92,7 @@ export default async function PublicAuditPage({
   const { data, error } = await supabase
     .from("audits")
     .select(
-      "slug, total_monthly_savings, total_annual_savings, tools, recommendations, summary",
+      "id, slug, team_size, total_monthly_savings, total_annual_savings, tools, recommendations, summary",
     )
     .eq("slug", slug)
     .single<PublicAuditRow>();
@@ -113,6 +116,9 @@ export default async function PublicAuditPage({
     (sum, tool) => sum + tool.monthlySpend,
     0,
   );
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const shareUrl = `${siteUrl}/audit/${data.slug}`;
 
   return (
     <main className="min-h-screen bg-[#090a0f] px-4 py-8 text-white sm:px-6 lg:px-8">
@@ -139,6 +145,15 @@ export default async function PublicAuditPage({
           toolsReviewed={data.tools.length}
           totalCurrentSpend={totalCurrentSpend}
         />
+
+        <div className="mt-6">
+          <LeadCapture
+            auditId={data.id}
+            shareUrl={shareUrl}
+            teamSize={data.team_size}
+            totalMonthlySavings={totalMonthlySavings}
+          />
+        </div>
       </div>
     </main>
   );
