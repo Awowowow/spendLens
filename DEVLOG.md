@@ -185,3 +185,43 @@
 - Add the unit economics section with real assumptions and rough math.
 - Re-check the deployed app after the documentation work is done.
 - Make sure the latest GitHub Actions run is still green before submission.
+
+
+
+## Day 6 — 2026-05-25
+
+**Hours worked:** 6
+
+### What I did
+
+- I wrote README.md with a project overview, setup instructions, environment variable reference, and screenshots of the homepage, audit results, and public share page.
+- I wrote ARCHITECTURE.md covering the Next.js app structure, audit engine design, Supabase schema, and how the share URL flow works end to end.
+- I wrote TESTS.md documenting all 11 audit-engine tests, what each one checks, and how to run the suite locally and in CI.
+- I wrote PROMPTS.md listing the prompts I used during development and what I learned from each AI interaction.
+- I wrote GTM.md with a go-to-market strategy covering the target audience, acquisition channels, and positioning against manual spreadsheet audits.
+- I wrote ECONOMICS.md with unit economics assumptions: estimated cost per audit run, lead conversion rate, and a rough path to covering infrastructure costs.
+- I wrote LANDING_COPY.md with headline, subheadline, feature bullets, social proof placeholders, and a call-to-action section.
+- I wrote METRICS.md defining the key metrics I would track post-launch: audits created, share URL clicks, lead capture rate, email open rate, and AI summary fallback rate.
+- I wrote REFLECTION.md covering what went well, what I would do differently, and what I would build next with more time.
+- I wrote USER_INTERVIEWS.md combining notes from all three interviews with a short synthesis section linking feedback to product decisions I made.
+- I added bonus features to the audit engine and UI.
+- I confirmed the final GitHub Actions run passed lint, tests, and next build.
+
+### What I learned
+
+- Writing ECONOMICS.md forced me to attach real numbers to assumptions I had been leaving vague, like cost per Gemini call and what a realistic lead-to-customer rate might be.
+- The user interview synthesis made it clear that two out of three users wanted savings shown as a percentage rather than only a dollar figure, which validated the decision I flagged on Day 5.
+- PROMPTS.md was harder to write than expected because I had to reconstruct my reasoning for prompts I wrote days ago. Logging prompts as I go would have been faster.
+- README screenshots need the deployed app to be stable before you take them, so this was the right day to do it.
+
+### Blockers / decisions
+
+- I kept the bonus features scoped and additive so they could not break the core audit flow or cause CI to fail.
+- I used placeholder numbers in ECONOMICS.md where I genuinely do not have real data, and labelled them clearly as estimates rather than leaving them unmarked.
+- I chose not to add new Supabase migrations today because documentation and a clean final CI run were the higher priority before submission.
+
+### Plan / submission checklist
+
+- Final review of all documentation files for typos and missing sections.
+- Confirm the live Vercel URL is working end to end one more time.
+- Verify the latest GitHub Actions run is green.

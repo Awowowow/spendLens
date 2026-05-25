@@ -3,11 +3,11 @@
 - All prices are in USD
 - Verified: 2026-05-20
 
-## 1. Cursor -:
+## 1. Cursor
 
 Source: https://cursor.com/pricing
 
-# Individual
+### Individual
 - Hobby: $0/month
   - Yearly: $0
 - Pro: $20/month
@@ -17,27 +17,27 @@ Source: https://cursor.com/pricing
 - Ultra: $200/month
   - Yearly: $160/month, billed annually ($1,920/year)
 
-# Team
+### Team
 - Teams: $40/user/month
   - Yearly: $32/user/month, billed annually ($384/user/year)
 - Enterprise: Custom pricing, contact sales
 
 ---
 
-## 2. GitHub Copilot -:
+## 2. GitHub Copilot
 
 Sources:
 - https://github.com/features/copilot/plans
 - https://docs.github.com/en/billing/concepts/product-billing/github-copilot-licenses
 
-# Individual
+### Individual
 - Free: $0/month
 - Pro: $10/month
   - Yearly: $100/year
 - Pro+: $39/month
   - Yearly: not clearly listed on current official pricing page
 
-# Team / Business
+### Team / Business
 - Business: $19/user/month, billed monthly
 - Enterprise: $39/user/month
 - Extra premium requests: $0.04/request
@@ -49,13 +49,13 @@ Sources:
 - The current $0.04/additional premium request figure should not be used for projections after 2026-06-01.
 - New individual signups for Pro, Pro+, and Student were paused on 2026-04-20 during the rollout.
 
-## 3. Claude -:
+## 3. Claude
 
 Sources:
 - https://claude.com/pricing
 
 
-# Individual
+### Individual
 - Free: $0
 - Pro: $20/month
   - Yearly: $200/year, shown as about $17/month
@@ -64,7 +64,7 @@ Sources:
 - Max 20x: $200/month
   - Yearly: not listed
 
-# Team
+### Team
 - Team Standard seat: $25/seat/month
   - Yearly: $20/seat/month, billed annually
   - Minimum: 5 members
@@ -75,7 +75,7 @@ Sources:
 
 ---
 
-## 4. ChatGPT -:
+## 4. ChatGPT
 
 Sources:
 - https://chatgpt.com/pricing
@@ -98,11 +98,11 @@ Sources:
   - Minimum: 2 users
 - Enterprise: Custom pricing, contact sales
 
-## 5. Anthropic API Direct -:
+## 5. Anthropic API Direct
 
 Source: https://platform.claude.com/docs/en/about-claude/pricing
 
-# API Pricing
+### API Pricing
 - Claude Opus 4.7:
   - Input: $5 / 1M tokens
   - Output: $25 / 1M tokens
@@ -113,19 +113,19 @@ Source: https://platform.claude.com/docs/en/about-claude/pricing
   - Input: $1 / 1M tokens
   - Output: $5 / 1M tokens
 
-# Notes
+### Notes
 - Batch API gives 50% discount on input and output tokens.
 - US-only inference can add a 1.1x multiplier for supported models.
 
 ---
 
-## 6. OpenAI API Direct -:
+## 6. OpenAI API Direct
 
 Sources:
 - https://openai.com/api/pricing/
 - https://developers.openai.com/api/docs/pricing
 
-# API Pricing
+### API Pricing
 - GPT-5.5:
   - Input: $5 / 1M tokens
   - Cached input: $0.50 / 1M tokens
@@ -139,13 +139,13 @@ Sources:
   - Cached input: $0.075 / 1M tokens
   - Output: $4.50 / 1M tokens
 
-# Notes
+### Notes
 - API usage is billed separately from ChatGPT subscriptions.
 - Batch API can reduce token costs by 50%.
 
 ---
 
-## 7. Gemini -:
+## 7. Gemini
 
 Sources:
 - https://gemini.google/us/subscriptions/
@@ -173,7 +173,7 @@ Sources:
   - Output above 200k tokens: $15 / 1M tokens
 
 
-## 8. Windsurf -:
+## 8. Windsurf
 
 Sources:
 - https://windsurf.com/pricing

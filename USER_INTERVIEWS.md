@@ -1,73 +1,62 @@
-## Interview 1 — Lead Frontend Developer, Bangalore Startup
+# User Interviews
 
-# Date: 2026-05-24  
-# Role: Lead Frontend Developer  
-# Company stage: Startup  
-# Team size: 5  
-# Format: Conversation on call
+## Interview 1 - Lead Frontend Developer, Bangalore Startup
 
-### 1. Interview Context
+**Date:** 2026-05-24
+**Name/initials:** [Archie]
+**Role/company stage:** Lead Frontend Developer, startup
+**Team size:** 5
+**Format:** Call
 
-I spoke with a lead frontend developer at a startup in Bangalore. The team has 5 people and uses AI tools mainly for frontend engineering work.
+The team uses Claude Code as its main coding assistant and Cursor more rarely while typing or editing code directly. The lead has a premium seat and four developers have standard seats. He does not personally track the bill because he does not pay it, although his manager has complained about heavy usage. He also described buying extra credits when a bug or production deadline creates urgent work.
 
-Buying AI tools is not only a developer decision. The lead frontend developer and the CEO are both involved in deciding which AI tools are worth paying for.
+> "I do not really check the cost because I do not pay for it. Our manager did say we use it too much."
+>
+> "Most people use Claude Code. It is enough most of the time. Cursor is used rarely, mostly when we are typing code ourselves."
+>
+> "For subscriptions, 10-20% savings would feel worth it. Below that, it is probably not worth the time."
 
-### 2. Current AI Stack
+**Most surprising point:** Extra credit spend can be intentional and useful during urgent delivery, rather than waste, while the person using the tool may not own the budget.
 
-**Tools mentioned**
+**Design change:** I kept recommendations neutral, using language such as "review usage" instead of accusing a team of waste. I also made audit reports shareable so a developer can send evidence to a manager or founder. Showing savings as a percentage is a useful next improvement because his threshold was percentage-based.
 
-- Cursor
-- Claude Code
+## Interview 2 - Lead Backend Developer, Buyhatke
 
-The lead frontend developer told me that they do not personally track AI tool spend because they are not the person paying for the tools. However, their manager has complained that the team uses AI tools a lot.
+**Date:** 2026-05-25
+**Name/initials:** [mohan]
+**Role/company stage:** Lead Backend Developer, established consumer technology company
+**Experience:** 6 years
+**Format:** Call
 
-I found this useful because it showed that the person using the tool may not be the person who feels the cost problem. Developers care more about speed and workflow, while managers and founders care more about the budget.
+He described an 11-person team using 12 Claude Enterprise seats plus GitHub Copilot. They reach Claude limits weekly and he estimated additional credit purchasing at **$3,000-$5,000 per month**. His manager approves those purchases. Saving 10-20% would be worth reviewing, and he would share a useful report with developers, his manager, a founder, and potentially finance if the credit logic was understandable. Asked whether his manager would book a Credex consultation from the report, he said they would think about it.
 
-### 3. How The Team Actually Uses The Tools
+### Key Quotes
 
-Most of the team uses Claude Code. The lead frontend developer said Claude Code is enough for most of their work. Cursor is used more rarely, mainly when someone is typing or editing code directly.
+> "Pretty often, especially nowadays because we are building a new platform and its deadline is soon."
+>
+> "I think 10-20% is a very big number for the whole company. He will definitely review it with full attention."
+>
+> "I will share the audit mostly with my manager, finance head, or the founder if the company is small. I will show it to my other developer friends for fun, not exactly to save money."
 
-This means Cursor and Claude Code can overlap, but they are not always used for the exact same job. Claude Code is the main coding assistant, while Cursor is more useful during manual code editing.
+**Most surprising point:** Even an enterprise customer can still have large, repeated credit spend. In this case, a spare seat is a smaller opportunity than regular credit purchasing.
 
-### 4. Plan And Credit Usage
+**Design change:** I surfaced a Credex credit-review call to action for high-savings audits. A future version should ask how often extra credits are purchased and their approximate monthly cost, so recurring overage spend is separated from normal subscriptions.
 
-The team has subscriptions for 5 members. The lead frontend developer has a premium subscription, and the other 4 developers have standard subscriptions.
+## Interview 3 - Third-Year Computer Science Student
 
-Sometimes they buy extra credits when they need to fix a bug or ship a feature quickly. This means AI spend is not always a fixed monthly subscription. There can be extra usage during urgent engineering work.
+**Date:** 2026-05-25
+**Name/initials:** [shivam]
+**Role/company stage:** Third-year computer science student, personal projects
+**Format:** In person
 
-### 5. Savings Threshold
+He is building a crypto exchange platform and a DeFi staking dApp while preparing for internships. Claude Pro is his main paid tool for architecture, debugging, and data structure and algorithm explanations. He uses GitHub Copilot through GitHub Education, ChatGPT for occasional second opinions, and Perplexity for research. He previously cancelled ChatGPT Plus because two paid AI subscriptions did not fit a student budget. He also described free-tier limits interrupting work before upgrading.
 
-I asked what kind of savings would be worth considering. They did not think only in fixed dollar amounts. Instead, they said 10–20% savings would feel worth reviewing.
+> "I had a ChatGPT Plus sub for a bit but dropped it - couldn't justify two paid AI subs at the same time on a student budget."
+>
+> "Probably INR 300-400/month difference would make me seriously consider it. I'm not switching for INR 50."
+>
+> "The result itself has to earn the email, not the other way around."
 
-If the savings is lower than that, it may not be worth the time unless the bill is very large. From a manager’s perspective, even if developers do not pay for the tools directly, the person in charge of the budget would still care if savings were at least around 10%.
+**Most surprising point:** He liked the idea of seeing subscriptions in one place, but did not immediately understand what an "audit result" promised.
 
-### 6. Key Quotes
-
-> “I do not really check the cost because I do not pay for it. Our manager did say we use it too much.”
-
-> “Most people use Claude Code. It is enough most of the time. Cursor is used rarely, mostly when we are typing code ourselves.”
-
-> “I have the premium subscription and the four developers under me have standard subscriptions. Sometimes we buy credits when there is a bug or we need to ship a feature.”
-
-> “For subscriptions, 10–20% savings would feel worth it. Below that, it is probably not worth the time.”
-
-### 7. What I Learned
-
-The person filling out the form may not always be the person in charge of the budget. A developer may understand the tools better, but a manager or CEO may care more about the cost.
-
-Because of this, the audit results need to work for both developers and managers. Developers need to trust that the recommendations make technical sense. Managers and founders need clear savings numbers. The report also needs to be easy to share because the person running the audit may need to send it to the person who controls the budget.
-
-I also learned that extra AI spend is not always wasted money. Sometimes the team intentionally spends more to finish urgent work. This means the audit should avoid assuming that every extra dollar is bad.
-
-The answer about savings thresholds changed how I think about the audit. Real users may think in percentages, not just dollar amounts. Saving $50/month can matter if the bill is $200/month, but may not matter if the bill is much larger.
-
-### 8. Product Implications
-
-- The audit results need to be easy to share with a CEO, manager, or finance person.
-- The result page should not blame developers for using AI tools.
-- The language should say “review usage” or “check plan fit” instead of “you are wasting money.”
-- Lead capture should happen after the report is shown.
-- The audit should be useful for both developers who understand the tools and managers who care about budget.
-- Cursor and Claude Code should not automatically be treated as pure duplicates because they can support different parts of the coding workflow.
-- SpendLens should eventually show savings as both a dollar amount and a percentage of current spend.
-- The audit should separate normal subscription spend from extra credit usage during urgent work.
+**Design change:** I kept results visible before email capture and made the product copy explain benchmark-based possible savings. Students are useful product feedback, but teams buying recurring credits remain the stronger Credex target customer.
