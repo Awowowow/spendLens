@@ -225,3 +225,35 @@
 - Review all required files against the PDF one final time.
 - Confirm the deployed audit, public share URL, PDF download, lead form, and summary fallback still work.
 - Check the latest GitHub Actions run and the commit-day requirement before submission.
+
+
+## Day 7 — 2026-05-26
+
+**Hours worked:** 2
+
+### What I did
+
+- I completed a final review of the app before submission and fixed server-side trust issues in the saved audit, AI summary, and lead-capture flows.
+- I made sure the server validates audit input and calculates report values itself instead of trusting values sent from the browser.
+- I fixed a possible double-counting case in the recommendation totals and added a 12th audit-engine test for that case.
+- I updated the documentation so it matches the final implemented flow, including the downloadable PDF report bonus feature.
+- I tested the live deployed app again: creating an audit, opening the public report URL, downloading the PDF, submitting the lead form, checking the summary fallback, and checking the mobile layout.
+- I ran final checks for GitHub Actions, Lighthouse requirements, committed secrets, and distinct commit days.
+- I corrected the Day 6 log wording so the development record is clearer and more accurate.
+
+### What I learned
+
+- Client-side values are not enough for a public report or saved lead. Important totals and share details should be rebuilt or loaded on the server.
+- A final review is useful even when the main features are complete, because small data-trust issues can affect whether the results are believable.
+- Bonus features still need the same verification as required features, especially when they add dependencies or new public routes.
+
+### Blockers / decisions
+
+- I did not add new product features during the final review because the required flow and PDF export were already complete; reliability was the priority.
+- I kept the final corrections as normal commits instead of rewriting pushed Git history, so the submission record stays honest and traceable.
+
+### Final submission check
+
+- The deployed audit flow, public share page, PDF download, lead form, and summary fallback are working.
+- GitHub Actions passes lint, automated tests, and production build.
+- The repository now has a devlog entry for each calendar day represented in the project timeline.
