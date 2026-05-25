@@ -126,6 +126,7 @@ export const AuditForm = () => {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [auditId, setAuditId] = useState<string | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isSavingAudit, setIsSavingAudit] = useState(false);
   const [summary, setSummary] = useState<string | null>(null);
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
@@ -142,6 +143,7 @@ export const AuditForm = () => {
     setResult(null);
     setAuditId(null);
     setShareUrl(null);
+    setPdfUrl(null);
     setSummary(null);
   };
 
@@ -263,11 +265,13 @@ export const AuditForm = () => {
       setResult(data.result);
       setAuditId(data.auditId);
       setShareUrl(data.shareUrl);
+      setPdfUrl(`/api/audits/${data.slug}/pdf`);
       void requestSummary(data.auditId, auditInput, data.result);
     } catch {
       setResult(runAudit(auditInput));
       setAuditId(null);
       setShareUrl(null);
+      setPdfUrl(null);
       setSummary(null);
     } finally {
       setIsSavingAudit(false);
@@ -330,14 +334,24 @@ export const AuditForm = () => {
                   </p>
                 </div>
 
-                <a
-                  className="shrink-0 rounded-xl bg-emerald-400 px-4 py-2 text-center text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
-                  href={shareUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  Open saved report
-                </a>
+                <div className="flex shrink-0 flex-wrap gap-2">
+                  {pdfUrl ? (
+                    <a
+                      className="rounded-xl border border-emerald-400/25 px-4 py-2 text-center text-sm font-semibold text-emerald-300 transition hover:border-emerald-300 hover:text-emerald-200"
+                      href={pdfUrl}
+                    >
+                      Download PDF
+                    </a>
+                  ) : null}
+                  <a
+                    className="rounded-xl bg-emerald-400 px-4 py-2 text-center text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
+                    href={shareUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Open saved report
+                  </a>
+                </div>
               </div>
             ) : null}
 

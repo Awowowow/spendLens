@@ -133,10 +133,19 @@ export default async function PublicAuditPage({
             </h1>
           </div>
 
-          <p className="max-w-sm text-sm leading-6 text-slate-400">
-            This public report shows benchmark-based savings opportunities. It
-            does not include lead contact details or private company fields.
-          </p>
+          <div className="flex max-w-sm flex-col items-start gap-4 sm:items-end">
+            <p className="text-sm leading-6 text-slate-400 sm:text-right">
+              This public report shows benchmark-based savings opportunities.
+              It does not include lead contact details or private company
+              fields.
+            </p>
+            <a
+              className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-white transition hover:border-emerald-400/50 hover:text-emerald-300"
+              href={`/api/audits/${data.slug}/pdf`}
+            >
+              Download PDF
+            </a>
+          </div>
         </header>
 
         <AuditResults
