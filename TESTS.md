@@ -29,6 +29,7 @@ GitHub Actions runs these three checks on every push to `main`.
 | `treats Gemini API model spend as API spend` | Gemini API model usage does trigger the API review rule. |
 | `suggests Claude Pro as an alternative for non-coding use cases using coding tools` | A named alternative is considered where use case and tool category do not match. |
 | `does not recommend Claude Pro when Claude is already in the stack` | The engine avoids suggesting a tool the user already pays for. |
+| `does not double-count a duplicate tool that already has a billing recommendation` | A cross-tool overlap recommendation does not add savings already attributed to the same subscription. |
 
 ## Manual Production Verification
 
@@ -36,10 +37,11 @@ The deployed flow was also checked manually on the live Vercel URL:
 
 - Created an audit and received a Supabase-backed public report URL.
 - Opened the shared report page and confirmed that only audit information is displayed.
+- Downloaded a PDF copy of a public report and confirmed it contains the public audit output.
 - Confirmed Gemini summary generation has a fallback for incomplete or failed model output.
 - Submitted a lead after the audit and confirmed Resend returned successful email delivery during testing.
-- Ran Lighthouse against the deployed URL: Performance `99`, Accessibility `100`, Best Practices `100`.
+- Ran Lighthouse against the deployed URL: Performance `94`, Accessibility `100`, Best Practices `100`.
 
 ## Known Coverage Gap
 
-The automated tests currently focus on the audit-engine calculations required by the assignment. API route integration, rate limiting, public report privacy, and email delivery have been manually verified but would be the next automated tests to add.
+The automated tests currently focus on the audit-engine calculations required by the assignment. API route integration, rate limiting, public report privacy, PDF generation, and email delivery have been manually verified but would be the next automated tests to add.

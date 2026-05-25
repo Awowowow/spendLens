@@ -26,6 +26,7 @@ The initial buyer is a founder, engineering manager, or technical lead whose tea
 - Persists form inputs across reloads using browser storage.
 - Applies deterministic audit rules using cited public pricing data.
 - Saves completed audits to Supabase and creates a public share URL.
+- Exports a saved public report as a downloadable PDF.
 - Generates a short Gemini summary, with a deterministic fallback if generation fails or returns incomplete text.
 - Captures leads only after showing value, with a honeypot, rate limit, and Resend confirmation email.
 - Shows a Credex credit-review path for high-savings audits.

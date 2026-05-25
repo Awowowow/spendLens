@@ -6,7 +6,7 @@ The most important bug was not a compile error. It was a trust problem in the au
 
 My first hypothesis was that each rule was individually correct, so summing them would also be correct. After walking through a single Copilot Business example by hand, I realized the recommendations described overlapping actions against the same bill. I changed the engine so it gathers candidate recommendations for each tool and counts only the highest-value non-overlapping one. I then added a test specifically checking that one tool does not inflate the total.
 
-Later, live testing found two smaller production bugs: Gemini returned an incomplete fragment instead of a useful paragraph, and the lead form tried to reset `event.currentTarget` after an asynchronous request when the value could be null. I added a summary-quality fallback and retained the form reference before awaiting the request. These bugs taught me that passing TypeScript and unit tests is necessary, but it does not replace testing the full deployed flow.
+Later, live testing found two smaller production bugs: Gemini returned an incomplete fragment instead of a useful paragraph, and the lead form tried to reset `event.currentTarget` after an asynchronous request when the value could be null. In final review I also found that the summary and lead routes accepted calculated values from the browser. I changed those routes to reload the saved audit and derive their values on the server. These bugs taught me that passing TypeScript and unit tests is necessary, but it does not replace testing the full deployed flow and its trust boundaries.
 
 ## 2. A Decision I Reversed Mid-Week
 
@@ -26,7 +26,7 @@ On the engineering side, I would add route-level integration tests for audit per
 
 ## 4. How I Used AI Tools
 
-I used AI tools during this project for explanation, code review, drafting, and debugging support. I already knew JavaScript and React, but I was learning TypeScript and Next.js App Router while building. AI helped me understand typed data shapes, server and client boundaries, route handlers, and why browser-only persisted form state can create hydration problems. I also used AI to critique the audit logic and improve the structure of documentation drafts.
+I used Claude and Codex during this project for explanation, code review, drafting, and debugging support. I already knew JavaScript and React, but I was learning TypeScript and Next.js App Router while building. AI helped me understand typed data shapes, server and client boundaries, route handlers, and why browser-only persisted form state can create hydration problems. I also used AI to critique the audit logic and improve the structure of documentation drafts.
 
 I did not trust AI with pricing verification, interview facts, or final audit numbers. I checked official pricing pages manually, gathered the interview information from real conversations, ran the tests, inspected Git history, deployed the app, and tested the live API and UI flow.
 
@@ -37,7 +37,7 @@ One specific correction was the early idea of putting Supabase-backed rate limit
 | Area | Score | Reason |
 | --- | ---: | --- |
 | Discipline | 8/10 | I kept meaningful commits across the required days, maintained a devlog, and worked through deployment failures instead of ignoring them. |
-| Code quality | 7/10 | The audit engine is typed and tested, but I would still add API integration tests and stronger request validation. |
+| Code quality | 7/10 | The audit engine is typed and tested and routes now validate trusted values, but I would still add API integration tests. |
 | Design sense | 7/10 | I improved the results screen into a shareable dashboard, but more mobile testing and polish could still improve it. |
 | Problem-solving | 8/10 | I found and corrected double-counted savings, deployment configuration failures, incomplete AI output, and the async form-reset bug. |
 | Entrepreneurial thinking | 7/10 | Interviews changed the roadmap toward percentage savings and recurring credit spend, but I still need more evidence from live users and actual consultation conversions. |

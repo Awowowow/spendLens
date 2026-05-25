@@ -197,26 +197,26 @@
 - I wrote README.md with a project overview, setup instructions, environment variable reference, and screenshots of the homepage, audit results, and public share page.
 - I wrote ARCHITECTURE.md covering the Next.js app structure, audit engine design, Supabase schema, and how the share URL flow works end to end.
 - I wrote TESTS.md documenting all 11 audit-engine tests, what each one checks, and how to run the suite locally and in CI.
-- I wrote PROMPTS.md listing the prompts I used during development and what I learned from each AI interaction.
+- I wrote `PROMPTS.md` documenting the production Gemini summary prompt, why I constrained it, and what fallback behavior is needed.
 - I wrote GTM.md with a go-to-market strategy covering the target audience, acquisition channels, and positioning against manual spreadsheet audits.
-- I wrote ECONOMICS.md with unit economics assumptions: estimated cost per audit run, lead conversion rate, and a rough path to covering infrastructure costs.
-- I wrote LANDING_COPY.md with headline, subheadline, feature bullets, social proof placeholders, and a call-to-action section.
-- I wrote METRICS.md defining the key metrics I would track post-launch: audits created, share URL clicks, lead capture rate, email open rate, and AI summary fallback rate.
+- I wrote `ECONOMICS.md` with assumptions for lead value, CAC by channel, conversion rates, and a rough path to $1M ARR.
+- I wrote `LANDING_COPY.md` with headline, subheadline, call-to-action copy, user-feedback social proof, and FAQ answers.
+- I wrote `METRICS.md` defining the funnel metrics I would track after launch.
 - I wrote REFLECTION.md covering what went well, what I would do differently, and what I would build next with more time.
-- I wrote USER_INTERVIEWS.md combining notes from all three interviews with a short synthesis section linking feedback to product decisions I made.
-- I added bonus features to the audit engine and UI.
-- I confirmed the final GitHub Actions run passed lint, tests, and next build.
+- I wrote `USER_INTERVIEWS.md` with three real interview summaries and the design change from each conversation.
+- I added downloadable PDF exports for saved public audit reports as a bonus feature.
+- I fixed a Linux lockfile issue introduced by the PDF dependency and confirmed GitHub Actions passed lint, tests, and build afterward.
 
 ### What I learned
 
-- Writing ECONOMICS.md forced me to attach real numbers to assumptions I had been leaving vague, like cost per Gemini call and what a realistic lead-to-customer rate might be.
+- Writing `ECONOMICS.md` forced me to attach numbers to assumptions I had been leaving vague, such as what a converted lead could be worth and what conversion rates would make this funnel profitable.
 - The user interview synthesis made it clear that two out of three users wanted savings shown as a percentage rather than only a dollar figure, which validated the decision I flagged on Day 5.
 - PROMPTS.md was harder to write than expected because I had to reconstruct my reasoning for prompts I wrote days ago. Logging prompts as I go would have been faster.
 - README screenshots need the deployed app to be stable before you take them, so this was the right day to do it.
 
 ### Blockers / decisions
 
-- I kept the bonus features scoped and additive so they could not break the core audit flow or cause CI to fail.
+- I kept the bonus feature scoped to an export of an already-saved report, then fixed the dependency lockfile when CI revealed a Linux installation issue.
 - I used placeholder numbers in ECONOMICS.md where I genuinely do not have real data, and labelled them clearly as estimates rather than leaving them unmarked.
 - I chose not to add new Supabase migrations today because documentation and a clean final CI run were the higher priority before submission.
 

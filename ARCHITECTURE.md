@@ -11,7 +11,8 @@ flowchart TD
     E --> DB[("Supabase Postgres: audits")]
     DB --> R["Results UI + public /audit/[slug] page"]
     R --> OG["Per-report metadata + OG image"]
-    R --> S["POST /api/summary"]
+    R --> PDF["Downloadable PDF report"]
+    DB --> S["POST /api/summary reloads saved audit"]
     S --> G["Gemini Flash"]
     G -->|valid summary| DB
     G -->|failure or incomplete output| FB["Templated fallback summary"]
@@ -28,8 +29,9 @@ flowchart TD
 2. On submit, `POST /api/audits` runs the audit engine again on the server. The client is not trusted as the source of calculated savings.
 3. The engine compares each line item against verified pricing constants and selects the strongest non-overlapping recommendation per tool. It separately checks overlapping coding assistants.
 4. The stored audit includes only tools, recommendations, totals, summary, and a generated slug. The public page reads this audit record. Lead fields are stored in a separate table and never selected for a public report.
-5. `POST /api/summary` generates a narrative summary with Gemini. If the API is unavailable or returns an incomplete paragraph, a deterministic fallback is stored instead.
-6. Only after results are shown can the visitor submit email, company, and role. The server checks a honeypot and a hashed-IP rate limit before storing a lead and sending a Resend confirmation email.
+5. `POST /api/summary` accepts the saved audit ID, reloads its tool input, and reruns the deterministic engine before generating narrative text with Gemini. It cannot overwrite a report using client-supplied totals. If the API is unavailable or returns an incomplete paragraph, a deterministic fallback is stored instead.
+6. Only after results are shown can the visitor submit email, company, and role. The server checks a honeypot and a hashed-IP rate limit, then derives the team size, savings value, and share URL from the saved audit before storing the lead and sending a Resend confirmation email.
+7. A saved public report can be downloaded as a generated PDF. The export contains report data and the summary, not private lead fields.
 
 ## Audit Logic
 
@@ -42,7 +44,7 @@ The financial calculations are deterministic TypeScript rules, not LLM output:
 - For writing or research use cases, compare paid coding tools against Claude Pro where it is a named lower-cost alternative and Claude is not already in the stack.
 - Flag multiple paid coding assistants as an overlap review.
 
-Only the highest estimated recommendation for each individual tool is counted, avoiding double-counting two proposed ways of reducing the same line item. The UI calls results benchmark-based opportunities because actual bills can include credits, add-ons, negotiated prices, and deliberate burst usage.
+Only the highest estimated recommendation for each individual tool is counted. An overlap recommendation is also compared against any existing recommendation for the same bill before it is counted, avoiding inflated totals. The UI calls results benchmark-based opportunities because actual bills can include credits, add-ons, negotiated prices, and deliberate burst usage.
 
 ## Stack Decisions
 
@@ -71,6 +73,7 @@ Lead rate limiting is performed in the API route using Supabase, rather than mid
 - Secrets are environment variables; `.env.local` is ignored from git.
 - Only server routes use the Supabase service-role key.
 - Public reports select audit results only, never lead rows.
+- Summary and lead routes reload saved audit values instead of trusting totals submitted by a browser.
 - Rate limiting hashes IP addresses before storing them.
 - Open Graph descriptions contain savings totals but no identifying lead fields.
 

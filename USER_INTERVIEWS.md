@@ -3,7 +3,7 @@
 ## Interview 1 - Lead Frontend Developer, Bangalore Startup
 
 **Date:** 2026-05-24
-**Name/initials:** [Archie]
+**Name/initials:** Archie
 **Role/company stage:** Lead Frontend Developer, startup
 **Team size:** 5
 **Format:** Call
@@ -23,7 +23,7 @@ The team uses Claude Code as its main coding assistant and Cursor more rarely wh
 ## Interview 2 - Lead Backend Developer, Buyhatke
 
 **Date:** 2026-05-25
-**Name/initials:** [mohan]
+**Name/initials:** Mohan
 **Role/company stage:** Lead Backend Developer, established consumer technology company
 **Experience:** 6 years
 **Format:** Call
@@ -45,7 +45,7 @@ He described an 11-person team using 12 Claude Enterprise seats plus GitHub Copi
 ## Interview 3 - Third-Year Computer Science Student
 
 **Date:** 2026-05-25
-**Name/initials:** [shivam]
+**Name/initials:** Shivam
 **Role/company stage:** Third-year computer science student, personal projects
 **Format:** In person
 
