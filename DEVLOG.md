@@ -194,34 +194,34 @@
 
 ### What I did
 
-- I wrote README.md with a project overview, setup instructions, environment variable reference, and screenshots of the homepage, audit results, and public share page.
-- I wrote ARCHITECTURE.md covering the Next.js app structure, audit engine design, Supabase schema, and how the share URL flow works end to end.
-- I wrote TESTS.md documenting all 11 audit-engine tests, what each one checks, and how to run the suite locally and in CI.
+- I wrote `README.md` with the live link, setup instructions, environment variables, product decisions, and screenshots of the input form, results page, and public report.
+- I wrote `ARCHITECTURE.md` to document the Next.js routes, Supabase tables, audit flow, summary fallback, lead capture, and privacy boundary between public audits and private leads.
+- I wrote `TESTS.md` documenting the 11 audit-engine tests that existed at this point, plus the local and GitHub Actions commands used to run them.
 - I wrote `PROMPTS.md` documenting the production Gemini summary prompt, why I constrained it, and what fallback behavior is needed.
-- I wrote GTM.md with a go-to-market strategy covering the target audience, acquisition channels, and positioning against manual spreadsheet audits.
+- I wrote `GTM.md` with the target user, acquisition channels, first-100-audits plan, and the distribution idea around shareable reports.
 - I wrote `ECONOMICS.md` with assumptions for lead value, CAC by channel, conversion rates, and a rough path to $1M ARR.
 - I wrote `LANDING_COPY.md` with headline, subheadline, call-to-action copy, user-feedback social proof, and FAQ answers.
 - I wrote `METRICS.md` defining the funnel metrics I would track after launch.
-- I wrote REFLECTION.md covering what went well, what I would do differently, and what I would build next with more time.
-- I wrote `USER_INTERVIEWS.md` with three real interview summaries and the design change from each conversation.
-- I added downloadable PDF exports for saved public audit reports as a bonus feature.
-- I fixed a Linux lockfile issue introduced by the PDF dependency and confirmed GitHub Actions passed lint, tests, and build afterward.
+- I completed `REFLECTION.md` and condensed the three real conversations into `USER_INTERVIEWS.md`, including what changed in the product after each interview.
+- I reviewed and updated `PRICING_DATA.md` so pricing notes and dated source links stayed consistent with the audit constants.
+- I added downloadable PDF exports for saved public audit reports as the bonus feature.
+- Adding the PDF package caused `npm ci` to fail in GitHub Actions because the lockfile was missing Linux optional dependencies. I updated the lockfile and confirmed that CI passed lint, tests, and build afterward.
 
 ### What I learned
 
-- Writing `ECONOMICS.md` forced me to attach numbers to assumptions I had been leaving vague, such as what a converted lead could be worth and what conversion rates would make this funnel profitable.
-- The user interview synthesis made it clear that two out of three users wanted savings shown as a percentage rather than only a dollar figure, which validated the decision I flagged on Day 5.
-- PROMPTS.md was harder to write than expected because I had to reconstruct my reasoning for prompts I wrote days ago. Logging prompts as I go would have been faster.
-- README screenshots need the deployed app to be stable before you take them, so this was the right day to do it.
+- Writing `ECONOMICS.md` forced me to put numbers behind the funnel instead of saying the product could create leads without proving what those leads might be worth.
+- Two professional interviewees judged an opportunity using a 10-20% saving threshold, while the student cared about an absolute monthly amount. That suggests the result page should eventually show both dollars and percentage.
+- The PDF export looked like a small bonus feature, but its new dependency still affected deployment reliability through the lockfile.
+- Documenting the production prompt was harder than expected because I had not written down every prompt decision while building. Keeping prompt notes earlier would make the final write-up easier.
 
 ### Blockers / decisions
 
-- I kept the bonus feature scoped to an export of an already-saved report, then fixed the dependency lockfile when CI revealed a Linux installation issue.
-- I used placeholder numbers in ECONOMICS.md where I genuinely do not have real data, and labelled them clearly as estimates rather than leaving them unmarked.
-- I chose not to add new Supabase migrations today because documentation and a clean final CI run were the higher priority before submission.
+- I kept the PDF feature limited to exporting an existing public report, instead of adding new user data or changing the main audit flow.
+- The numbers in `ECONOMICS.md` are estimates because there is no real conversion history yet; I labelled the assumptions instead of presenting them as measured results.
+- I did not expand the schema with future credit-usage fields suggested by interviews because completing and verifying the required MVP was more important before submission.
 
-### Plan / submission checklist
+### Plan for tomorrow
 
-- Final review of all documentation files for typos and missing sections.
-- Confirm the live Vercel URL is working end to end one more time.
-- Verify the latest GitHub Actions run is green.
+- Review all required files against the PDF one final time.
+- Confirm the deployed audit, public share URL, PDF download, lead form, and summary fallback still work.
+- Check the latest GitHub Actions run and the commit-day requirement before submission.
