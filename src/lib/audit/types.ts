@@ -8,7 +8,7 @@ export type ToolId =
   | "gemini"
   | "windsurf";
 
-  export type UseCase = "coding" | "writing" | "data" | "research" | "mixed";
+export type UseCase = "coding" | "writing" | "data" | "research" | "mixed";
 
 export interface ToolSpendInput {
   toolId: ToolId;
@@ -24,17 +24,17 @@ export interface AuditInput {
 }
 
 export interface Recommendation {
-    toolId: ToolId;
-    action: string;
-    reason: string;
-    estimatedMonthlySavings: number;
-    priority: "low" | "medium" | "high";
+  toolId: ToolId;
+  action: string;
+  reason: string;
+  estimatedMonthlySavings: number;
+  priority: "low" | "medium" | "high";
 }
 
 export interface AuditResult {
-    totalMonthlySavings: number;
-    totalAnnualSavings: number;
-    recommendations: Recommendation[];
-    isLowSavings: boolean;
-    shouldShowCredexCta: boolean;
-  }
+  totalMonthlySavings: number;
+  totalAnnualSavings: number;
+  recommendations: Recommendation[];
+  isLowSavings: boolean;
+  shouldShowCredexCta: boolean;
+}

@@ -9,10 +9,13 @@ interface CreateLeadRequest {
   email: string;
   company?: string;
   role?: string;
-  shareUrl?: string;
-  teamSize: number;
-  totalMonthlySavings: number;
   website?: string;
+}
+
+interface LeadAuditRow {
+  slug: string;
+  team_size: number;
+  total_monthly_savings: number;
 }
 
 const LEAD_RATE_LIMIT = 5;
@@ -41,14 +44,22 @@ const isLeadRequest = (body: unknown): body is CreateLeadRequest => {
 
   return (
     typeof candidate.auditId === "string" &&
-    typeof candidate.email === "string" &&
-    typeof candidate.teamSize === "number" &&
-    typeof candidate.totalMonthlySavings === "number"
+    candidate.auditId.length > 0 &&
+    typeof candidate.email === "string"
   );
 };
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid lead request." },
+      { status: 400 },
+    );
+  }
 
   if (!isLeadRequest(body)) {
     return NextResponse.json(
@@ -99,13 +110,36 @@ export async function POST(request: Request) {
     );
   }
 
+  const { data: audit, error: auditError } = await supabase
+    .from("audits")
+    .select("slug, team_size, total_monthly_savings")
+    .eq("id", body.auditId)
+    .maybeSingle<LeadAuditRow>();
+
+  if (auditError) {
+    return NextResponse.json(
+      { error: "Could not load audit." },
+      { status: 500 },
+    );
+  }
+
+  if (!audit) {
+    return NextResponse.json({ error: "Audit not found." }, { status: 404 });
+  }
+
+  const totalMonthlySavings = Number(audit.total_monthly_savings);
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin
+  ).replace(/\/$/, "");
+  const shareUrl = `${siteUrl}/audit/${audit.slug}`;
+
   const { error } = await supabase.from("leads").insert({
     audit_id: body.auditId,
     email,
     company: body.company?.trim() || null,
     role: body.role?.trim() || null,
-    team_size: body.teamSize,
-    total_monthly_savings: body.totalMonthlySavings,
+    team_size: audit.team_size,
+    total_monthly_savings: totalMonthlySavings,
   });
 
   if (error) {
@@ -122,8 +156,8 @@ export async function POST(request: Request) {
 
   const emailResult = await sendLeadConfirmationEmail({
     to: email,
-    shareUrl: body.shareUrl,
-    totalMonthlySavings: body.totalMonthlySavings,
+    shareUrl,
+    totalMonthlySavings,
   });
 
   return NextResponse.json({ ok: true, emailSent: emailResult.sent });

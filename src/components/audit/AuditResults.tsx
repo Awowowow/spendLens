@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import type { AuditResult } from "../../lib/audit/types";
+import type { AuditResult, ToolSpendInput } from "../../lib/audit/types";
 import { RecommendationCard } from "./RecommendationCard";
 import { SavingsHero } from "./SavingsHero";
 
@@ -11,7 +11,7 @@ interface AuditResultsProps {
   result: AuditResult;
   summary?: string | null;
   totalCurrentSpend: number;
-  toolsReviewed: number;
+  tools: ToolSpendInput[];
 }
 
 export const AuditResults = ({
@@ -19,7 +19,7 @@ export const AuditResults = ({
   result,
   summary,
   totalCurrentSpend,
-  toolsReviewed,
+  tools,
 }: AuditResultsProps) => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -56,7 +56,7 @@ export const AuditResults = ({
       <SavingsHero
         opportunityCount={opportunityCount}
         result={result}
-        toolsReviewed={toolsReviewed}
+        toolsReviewed={tools.length}
         totalCurrentSpend={totalCurrentSpend}
       />
 
@@ -101,7 +101,7 @@ export const AuditResults = ({
       {result.isLowSavings ? (
         <div className="mt-5 rounded-2xl border border-[var(--audit-border)] bg-[var(--audit-success-bg)] p-4">
           <p className="text-sm font-semibold text-[var(--audit-success)]">
-            Your stack looks lean.
+            You&apos;re spending well.
           </p>
           <p className="mt-1 text-sm leading-6 text-[var(--audit-text-secondary)]">
             Based on public pricing benchmarks, there may not be much obvious
@@ -127,6 +127,10 @@ export const AuditResults = ({
           <div>
             {result.recommendations.map((recommendation) => (
               <RecommendationCard
+                currentMonthlySpend={
+                  tools.find((tool) => tool.toolId === recommendation.toolId)
+                    ?.monthlySpend
+                }
                 key={`${recommendation.toolId}-${recommendation.action}`}
                 recommendation={recommendation}
               />

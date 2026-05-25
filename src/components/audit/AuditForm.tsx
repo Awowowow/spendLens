@@ -147,19 +147,13 @@ export const AuditForm = () => {
     setSummary(null);
   };
 
-  const requestSummary = async (
-    savedAuditId: string,
-    savedInput: AuditInput,
-    savedResult: AuditResult,
-  ) => {
+  const requestSummary = async (savedAuditId: string) => {
     setIsLoadingSummary(true);
 
     try {
       const response = await fetch("/api/summary", {
         body: JSON.stringify({
           auditId: savedAuditId,
-          input: savedInput,
-          result: savedResult,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -266,7 +260,7 @@ export const AuditForm = () => {
       setAuditId(data.auditId);
       setShareUrl(data.shareUrl);
       setPdfUrl(`/api/audits/${data.slug}/pdf`);
-      void requestSummary(data.auditId, auditInput, data.result);
+      void requestSummary(data.auditId);
     } catch {
       setResult(runAudit(auditInput));
       setAuditId(null);
@@ -314,7 +308,7 @@ export const AuditForm = () => {
               isLoadingSummary={isLoadingSummary}
               result={result}
               summary={summary}
-              toolsReviewed={auditInput.tools.length}
+              tools={auditInput.tools}
               totalCurrentSpend={totalCurrentSpend}
             />
 
@@ -356,12 +350,7 @@ export const AuditForm = () => {
             ) : null}
 
             {auditId ? (
-              <LeadCapture
-                auditId={auditId}
-                shareUrl={shareUrl ?? ""}
-                teamSize={auditInput.teamSize}
-                totalMonthlySavings={result.totalMonthlySavings}
-              />
+              <LeadCapture auditId={auditId} />
             ) : null}
 
             <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">

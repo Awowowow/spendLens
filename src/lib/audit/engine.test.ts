@@ -243,4 +243,31 @@ describe("runAudit", () => {
     expect(result.recommendations).toHaveLength(0);
     expect(result.totalMonthlySavings).toBe(0);
   });
+
+  it("does not double-count a duplicate tool that already has a billing recommendation", () => {
+    const result = runAudit({
+      teamSize: 1,
+      useCase: "coding",
+      tools: [
+        {
+          toolId: "cursor",
+          planId: "ultra",
+          monthlySpend: 200,
+          seats: 1,
+        },
+        {
+          toolId: "github_copilot",
+          planId: "pro",
+          monthlySpend: 40,
+          seats: 1,
+        },
+      ],
+    });
+
+    expect(result.recommendations).toHaveLength(1);
+    expect(result.recommendations[0].action).toBe(
+      "Review duplicate coding assistants",
+    );
+    expect(result.totalMonthlySavings).toBe(40);
+  });
 });

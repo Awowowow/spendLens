@@ -3,6 +3,7 @@ import type { Recommendation } from "../../lib/audit/types";
 import { formatCurrency } from "../../lib/utils";
 
 interface RecommendationCardProps {
+  currentMonthlySpend?: number;
   recommendation: Recommendation;
 }
 
@@ -28,6 +29,7 @@ const getToolInitials = (toolName: string) => {
 };
 
 export const RecommendationCard = ({
+  currentMonthlySpend,
   recommendation,
 }: RecommendationCardProps) => {
   const toolName = TOOL_PRICING[recommendation.toolId].name;
@@ -45,6 +47,11 @@ export const RecommendationCard = ({
             <p className="text-sm font-semibold tracking-tight text-[var(--audit-text-primary)]">
               {toolName}
             </p>
+            {currentMonthlySpend !== undefined ? (
+              <p className="mt-1 font-mono text-xs text-[var(--audit-text-muted)]">
+                Current {formatCurrency(currentMonthlySpend)}/mo
+              </p>
+            ) : null}
             <div className="mt-1 flex items-center gap-2">
               <span
                 className={`size-2 rounded-full ${

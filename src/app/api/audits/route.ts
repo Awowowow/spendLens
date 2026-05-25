@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { runAudit } from "../../../lib/audit/engine";
 import type { AuditInput } from "../../../lib/audit/types";
+import { isAuditInput } from "../../../lib/audit/validation";
 import { createAuditSlug } from "../../../lib/slug";
 import { createServerSupabaseClient } from "../../../lib/supabase/server";
 
@@ -18,17 +19,20 @@ const isValidAuditRequest = (body: unknown): body is CreateAuditRequest => {
     return false;
   }
 
-  const input = body.input;
-
-  if (!input || typeof input !== "object") {
-    return false;
-  }
-
-  return "teamSize" in input && "useCase" in input && "tools" in input;
+  return isAuditInput(body.input);
 };
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid audit request." },
+      { status: 400 },
+    );
+  }
 
   if (!isValidAuditRequest(body)) {
     return NextResponse.json(

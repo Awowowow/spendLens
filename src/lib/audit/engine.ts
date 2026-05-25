@@ -291,7 +291,18 @@ export const runAudit = (input: AuditInput): AuditResult => {
   const duplicateCodingTools = getDuplicateCodingToolRecommendation(input.tools);
 
   if (duplicateCodingTools) {
-    recommendations.push(duplicateCodingTools);
+    const overlappingIndex = recommendations.findIndex(
+      (recommendation) => recommendation.toolId === duplicateCodingTools.toolId,
+    );
+
+    if (overlappingIndex === -1) {
+      recommendations.push(duplicateCodingTools);
+    } else if (
+      duplicateCodingTools.estimatedMonthlySavings >
+      recommendations[overlappingIndex].estimatedMonthlySavings
+    ) {
+      recommendations[overlappingIndex] = duplicateCodingTools;
+    }
   }
 
   const totalMonthlySavings = recommendations.reduce(

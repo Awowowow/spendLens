@@ -5,19 +5,11 @@ import type { FormEvent } from "react";
 
 interface LeadCaptureProps {
   auditId: string;
-  shareUrl: string;
-  teamSize: number;
-  totalMonthlySavings: number;
 }
 
 type LeadStatus = "idle" | "submitting" | "success" | "error";
 
-export const LeadCapture = ({
-  auditId,
-  shareUrl,
-  teamSize,
-  totalMonthlySavings,
-}: LeadCaptureProps) => {
+export const LeadCapture = ({ auditId }: LeadCaptureProps) => {
   const [status, setStatus] = useState<LeadStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -34,10 +26,7 @@ export const LeadCapture = ({
       email: String(formData.get("email") ?? ""),
       company: String(formData.get("company") ?? ""),
       role: String(formData.get("role") ?? ""),
-      shareUrl,
       website: String(formData.get("website") ?? ""),
-      teamSize,
-      totalMonthlySavings,
     };
 
     try {

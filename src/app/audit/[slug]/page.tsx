@@ -116,10 +116,6 @@ export default async function PublicAuditPage({
     (sum, tool) => sum + tool.monthlySpend,
     0,
   );
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const shareUrl = `${siteUrl}/audit/${data.slug}`;
-
   return (
     <main className="min-h-screen bg-[#090a0f] px-4 py-8 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -151,17 +147,12 @@ export default async function PublicAuditPage({
         <AuditResults
           result={result}
           summary={data.summary}
-          toolsReviewed={data.tools.length}
+          tools={data.tools}
           totalCurrentSpend={totalCurrentSpend}
         />
 
         <div className="mt-6">
-          <LeadCapture
-            auditId={data.id}
-            shareUrl={shareUrl}
-            teamSize={data.team_size}
-            totalMonthlySavings={totalMonthlySavings}
-          />
+          <LeadCapture auditId={data.id} />
         </div>
       </div>
     </main>
